@@ -44,28 +44,15 @@ int main(int argc, char* argv[]) {
 
    free(thread_handles);
    return 0;
-}  /* main */
+}
 
 
-/*--------------------------------------------------------------------
- * Function:    Usage
- * Purpose:     Print command line for function and terminate
- * In arg:      prog_name
- */
 void Usage(char* prog_name) {
 
    fprintf(stderr, "usage: %s <number of threads>\n", prog_name);
    exit(0);
-}  /* Usage */
+}  
 
-
-/*-------------------------------------------------------------------
- * Function:    Thread_work
- * Purpose:     Run BARRIER_COUNT barriers
- * In arg:      rank
- * Global var:  thread_count, count, barrier_sems, count_sem
- * Return val:  Ignored
- */
 void *Thread_work(void* rank) {
 
    long my_rank = (long) rank;
@@ -86,7 +73,6 @@ void *Thread_work(void* rank) {
       }
 
       if (my_rank == 0) {
-         //printf("All threads completed barrier %d\n", i);
          fflush(stdout);
       }
 
