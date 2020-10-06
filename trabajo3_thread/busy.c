@@ -13,17 +13,15 @@ double sum;
 
 void* Thread_sum(void* rank);
 
-/* Only executed by main thread */
 void Get_args(int argc, char* argv[]);
 void Usage(char* prog_name);
 double Serial_pi(long long n);
 
 int main(int argc, char* argv[]) {
-   long       thread;  /* Use long in case of a 64-bit system */
+   long       thread;  
    pthread_t* thread_handles;
    double start, finish, elapsed;
-
-   /* Get number of threads and number of terms from command line */
+   
    Get_args(argc, argv);
 
    thread_handles = (pthread_t*) malloc (thread_count*sizeof(pthread_t)); 
@@ -58,16 +56,8 @@ int main(int argc, char* argv[]) {
    
    free(thread_handles);
    return 0;
-}  /* main */
+} 
 
-/*------------------------------------------------------------------
- * Function:       Thread_sum
- * Purpose:        Add in the terms computed by the thread running this 
- * In arg:         rank
- * Ret val:        ignored
- * Globals in:     n, thread_count
- * Global in/out:  sum 
- */
 void* Thread_sum(void* rank) {
    long my_rank = (long) rank;
    double factor;
@@ -88,14 +78,8 @@ void* Thread_sum(void* rank) {
    }
 
    return NULL;
-}  /* Thread_sum */
+}
 
-/*------------------------------------------------------------------
- * Function:   Serial_pi
- * Purpose:    Estimate pi using 1 thread
- * In arg:     n
- * Return val: Estimate of pi using n terms of Maclaurin series
- */
 double Serial_pi(long long n) {
    double sum = 0.0;
    long long i;
@@ -106,27 +90,18 @@ double Serial_pi(long long n) {
    }
    return 4.0*sum;
 
-}  /* Serial_pi */
+} 
 
-/*------------------------------------------------------------------
- * Function:    Get_args
- * Purpose:     Get the command line args
- * In args:     argc, argv
- * Globals out: thread_count, n
- */
+
 void Get_args(int argc, char* argv[]) {
    if (argc != 3) Usage(argv[0]);
    thread_count = strtol(argv[1], NULL, 10);  
    if (thread_count <= 0 || thread_count > MAX_THREADS) Usage(argv[0]);
    n = strtoll(argv[2], NULL, 10);
    if (n <= 0) Usage(argv[0]);
-}  /* Get_args */
+} 
 
-/*------------------------------------------------------------------
- * Function:  Usage
- * Purpose:   Print a message explaining how to run the program
- * In arg:    prog_name
- */
+
 void Usage(char* prog_name) {
    fprintf(stderr, "usage: %s <number of threads> <n>\n", prog_name);
    fprintf(stderr, "   n is the number of terms and should be >= 1\n");
