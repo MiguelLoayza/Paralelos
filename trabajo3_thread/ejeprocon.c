@@ -5,14 +5,13 @@
 const int MAX_THREADS = 1024;
 const int MSG_MAX = 100;
 
-/* Global variables:  accessible to all threads */
+
 int thread_count;
 char** messages;
 
 void Usage(char* prog_name);
-void *Send_msg(void* rank);  /* Thread function */
+void *Send_msg(void* rank);  
 
-/*--------------------------------------------------------------------*/
 int main(int argc, char* argv[]) {
    long       thread;
    pthread_t* thread_handles; 
@@ -40,32 +39,14 @@ int main(int argc, char* argv[]) {
 
    free(thread_handles);
    return 0;
-}  /* main */
+} 
 
-
-/*--------------------------------------------------------------------
- * Function:    Usage
- * Purpose:     Print command line for function and terminate
- * In arg:      prog_name
- */
 void Usage(char* prog_name) {
 
    fprintf(stderr, "usage: %s <number of threads>\n", prog_name);
    exit(0);
-}  /* Usage */
+}  
 
-
-/*-------------------------------------------------------------------
- * Function:       Send_msg
- * Purpose:        Create a message and ``send'' it by copying it
- *                 into the global messages array.  Receive a message
- *                 and print it.
- * In arg:         rank
- * Global in:      thread_count
- * Global in/out:  messages
- * Return val:     Ignored
- * Note:           The my_msg buffer is freed in main
- */
 void *Send_msg(void* rank) {
    long my_rank = (long) rank;
    long dest = (my_rank + 1) % thread_count;
