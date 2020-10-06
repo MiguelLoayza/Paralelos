@@ -13,7 +13,6 @@ pthread_cond_t ok_to_proceed;
 void Usage(char* prog_name);
 void *Thread_work(void* rank);
 
-/*--------------------------------------------------------------------*/
 int main(int argc, char* argv[]) {
    long       thread;
    pthread_t* thread_handles; 
@@ -42,29 +41,14 @@ int main(int argc, char* argv[]) {
    pthread_cond_destroy(&ok_to_proceed);
    free(thread_handles);
    return 0;
-}  /* main */
+} 
 
-
-/*--------------------------------------------------------------------
- * Function:    Usage
- * Purpose:     Print command line for function and terminate
- * In arg:      prog_name
- */
 void Usage(char* prog_name) {
 
    fprintf(stderr, "usage: %s <number of threads>\n", prog_name);
    exit(0);
-}  /* Usage */
+} 
 
-
-/*-------------------------------------------------------------------
- * Function:    Thread_work
- * Purpose:     Run BARRIER_COUNT barriers
- * In arg:      rank
- * Global var:  thread_count, barrier_thread_count, barrier_mutex,
- *              ok_to_proceed
- * Return val:  Ignored
- */
 void *Thread_work(void* rank) {
 
    long my_rank = (long) rank; 
@@ -85,7 +69,6 @@ void *Thread_work(void* rank) {
          while (pthread_cond_wait(&ok_to_proceed, &barrier_mutex) != 0);
          // Mutex se vuelve a bloquear en este punto.
          fflush(stdout);
-
       }
       pthread_mutex_unlock(&barrier_mutex);
 
